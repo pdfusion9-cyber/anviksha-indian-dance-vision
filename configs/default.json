@@ -1,0 +1,48 @@
+{
+  "dataset": {
+    "repo_id": "tanmaykm/indian_dance_forms",
+    "license": "Apache-2.0",
+    "splits": ["train", "valid", "test"],
+    "classes": [
+      "bharatanatyam", "kathak", "kathakali", "kuchipudi",
+      "manipuri", "mohiniyattam", "odissi", "sattriya"
+    ]
+  },
+  "preprocessing": {
+    "image_size": 64,
+    "channels": 3,
+    "scale": "uint8 / 255, NHWC to NCHW"
+  },
+  "classifier": {
+    "widths": [24, 48, 96],
+    "dropout": 0.3,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "epochs": 24,
+    "parameters": 162800
+  },
+  "autoencoder": {
+    "latent_dim": 128,
+    "base_channels": 24,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "epochs": 24,
+    "parameters": 766211
+  },
+  "results": {
+    "validation_accuracy": 0.739010989010989,
+    "macro_precision": 0.7625,
+    "macro_recall": 0.7401,
+    "macro_f1": 0.7368,
+    "best_epoch": 21,
+    "autoencoder_best_val_mse": 0.01795,
+    "autoencoder_psnr_db": 17.46
+  },
+  "hardware": {
+    "device": "cpu",
+    "cores": 2,
+    "classifier_seconds_per_epoch": 43,
+    "autoencoder_seconds_per_epoch": 18
+  }
+}
