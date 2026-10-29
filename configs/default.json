@@ -13,14 +13,32 @@
     "channels": 3,
     "scale": "uint8 / 255, NHWC to NCHW"
   },
-  "classifier": {
-    "widths": [24, 48, 96],
+  "augmentation": {
+    "horizontal_flip": 0.5,
+    "random_crop_pad": 4,
+    "brightness": 0.2,
+    "contrast": 0.2,
+    "saturation": 0.15
+  },
+  "classifier_v2": {
+    "widths": [28, 56, 112],
     "dropout": 0.3,
     "batch_size": 32,
+    "learning_rate": 0.0015,
+    "schedule": "cosine",
+    "label_smoothing": 0.1,
+    "epochs": 26,
+    "parameters": 221180,
+    "best_epoch": 25
+  },
+  "classifier_v1_baseline": {
+    "widths": [24, 48, 96],
+    "batch_size": 32,
     "learning_rate": 0.001,
-    "weight_decay": 0.0001,
+    "augmentation": false,
     "epochs": 24,
-    "parameters": 162800
+    "parameters": 162800,
+    "validation_accuracy": 0.739010989010989
   },
   "autoencoder": {
     "latent_dim": 128,
@@ -28,21 +46,22 @@
     "batch_size": 32,
     "learning_rate": 0.001,
     "epochs": 24,
-    "parameters": 766211
+    "parameters": 766211,
+    "best_val_mse": 0.01795,
+    "psnr_db": 17.46
   },
-  "results": {
-    "validation_accuracy": 0.739010989010989,
-    "macro_precision": 0.7625,
-    "macro_recall": 0.7401,
-    "macro_f1": 0.7368,
-    "best_epoch": 21,
-    "autoencoder_best_val_mse": 0.01795,
-    "autoencoder_psnr_db": 17.46
+  "results_v2": {
+    "validation_accuracy": 0.7994505494505495,
+    "macro_precision": 0.8014,
+    "macro_recall": 0.8017,
+    "macro_f1": 0.7992,
+    "validation_accuracy_with_flip_tta": 0.7885,
+    "tta_helped": false
   },
   "hardware": {
     "device": "cpu",
     "cores": 2,
-    "classifier_seconds_per_epoch": 43,
+    "classifier_v2_seconds_per_epoch": 58,
     "autoencoder_seconds_per_epoch": 18
   }
 }

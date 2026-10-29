@@ -31,14 +31,16 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", default="data/dance_raw/data", type=Path)
     parser.add_argument("--classifier", default="runs/classifier/best.pt", type=Path)
+    parser.add_argument("--classifier-metrics", default="runs/classifier/metrics.json",
+                        type=Path)
     parser.add_argument("--autoencoder", default="runs/autoencoder/best.pt", type=Path)
     parser.add_argument("--evaluation", default="results/evaluation.json", type=Path)
     parser.add_argument("--out", default="results/figures", type=Path)
     return parser.parse_args()
 
 
-def plot_training(out: Path) -> None:
-    classifier = json.loads(Path("runs/classifier/metrics.json").read_text())
+def plot_training(out: Path, classifier_metrics: Path) -> None:
+    classifier = json.loads(classifier_metrics.read_text())
     autoencoder = json.loads(Path("runs/autoencoder/metrics.json").read_text())
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 4), facecolor="white")
@@ -151,7 +153,8 @@ def plot_predictions(args: argparse.Namespace, out: Path) -> None:
     checkpoint = torch.load(args.classifier, weights_only=False)
     size = checkpoint.get("image_size", 64)
     classes = checkpoint.get("classes", CLASSES)
-    model = DanceClassifier(num_classes=len(classes))
+    widths = tuple(checkpoint.get("widths", (24, 48, 96)))
+    model = DanceClassifier(num_classes=len(classes), widths=widths)
     model.load_state_dict(checkpoint["model"])
     model.eval()
 
@@ -183,7 +186,7 @@ def plot_predictions(args: argparse.Namespace, out: Path) -> None:
 def main() -> None:
     args = parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
-    plot_training(args.out)
+    plot_training(args.out, args.classifier_metrics)
     plot_confusion(json.loads(args.evaluation.read_text()), args.out)
     plot_reconstructions(args, args.out)
     plot_predictions(args, args.out)

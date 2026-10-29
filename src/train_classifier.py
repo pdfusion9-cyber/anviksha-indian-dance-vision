@@ -21,6 +21,7 @@ import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from augment import augment_batch  # noqa: E402
 from data import CLASSES, load_split, summarise, to_float  # noqa: E402
 from models import DanceClassifier  # noqa: E402
 from optim import Adam  # noqa: E402
@@ -36,6 +37,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lr", default=2e-3, type=float)
     parser.add_argument("--weight-decay", default=1e-4, type=float)
     parser.add_argument("--threads", default=6, type=int)
+    parser.add_argument("--widths", default="24,48,96",
+                        help="channel widths of the three conv blocks")
+    parser.add_argument("--augment", action="store_true",
+                        help="enable flip / crop / colour-jitter augmentation")
+    parser.add_argument("--label-smoothing", default=0.0, type=float)
+    parser.add_argument("--cosine", action="store_true",
+                        help="cosine-decay the learning rate across epochs")
     parser.add_argument(
         "--time-budget",
         default=0.0,
@@ -60,7 +68,10 @@ def main() -> None:
     summarise(train, "train")
     summarise(valid, "valid")
 
-    model = DanceClassifier(num_classes=len(CLASSES))
+    widths = tuple(int(part) for part in args.widths.split(","))
+    if len(widths) != 3:
+        raise SystemExit("--widths expects three comma-separated integers")
+    model = DanceClassifier(num_classes=len(CLASSES), widths=widths)
     optimiser = Adam(
         model.parameters(), lr=args.lr, weight_decay=args.weight_decay
     )
@@ -102,11 +113,19 @@ def main() -> None:
         model.train()
         running = 0.0
         epoch_rng = np.random.default_rng(epoch)
+        if args.cosine:
+            progress = epoch / max(args.epochs - 1, 1)
+            optimiser.lr = args.lr * 0.5 * (1.0 + np.cos(np.pi * progress))
         for index in batches(len(train.images), args.batch, epoch_rng):
-            inputs = torch.from_numpy(to_float(train.images[index]))
+            batch = train.images[index]
+            if args.augment:
+                batch = augment_batch(batch.copy(), epoch_rng)
+            inputs = torch.from_numpy(to_float(batch))
             targets = torch.from_numpy(train.labels[index])
             optimiser.zero_grad()
-            loss = F.cross_entropy(model(inputs), targets)
+            loss = F.cross_entropy(
+                model(inputs), targets, label_smoothing=args.label_smoothing
+            )
             loss.backward()
             optimiser.step()
             running += loss.item() * len(index)
@@ -137,6 +156,8 @@ def main() -> None:
                 "best_accuracy": max(best_accuracy, val_accuracy),
                 "classes": CLASSES,
                 "image_size": args.size,
+                "augment": args.augment,
+                "widths": widths,
             },
             last_path,
         )
@@ -149,6 +170,8 @@ def main() -> None:
                     "val_accuracy": val_accuracy,
                     "classes": CLASSES,
                     "image_size": args.size,
+                    "augment": args.augment,
+                    "widths": widths,
                 },
                 best_path,
             )
@@ -160,6 +183,10 @@ def main() -> None:
 
     metrics = {
         "parameters": parameters,
+        "widths": widths,
+        "augment": args.augment,
+        "label_smoothing": args.label_smoothing,
+        "cosine": args.cosine,
         "epochs_completed": len(history),
         "best_val_accuracy": best_accuracy,
         "final_val_accuracy": history[-1]["val_accuracy"] if history else 0.0,

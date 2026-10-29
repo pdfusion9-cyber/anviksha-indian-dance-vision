@@ -31,6 +31,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out", default="results", type=Path)
     parser.add_argument("--batch", default=64, type=int)
     parser.add_argument("--threads", default=6, type=int)
+    parser.add_argument("--tta", action="store_true",
+                        help="average logits over the image and its horizontal flip")
     return parser.parse_args()
 
 
@@ -41,7 +43,8 @@ def main() -> None:
     checkpoint = torch.load(args.checkpoint, weights_only=False)
     classes = checkpoint.get("classes", CLASSES)
     size = checkpoint.get("image_size", 96)
-    model = DanceClassifier(num_classes=len(classes))
+    widths = tuple(checkpoint.get("widths", (24, 48, 96)))
+    model = DanceClassifier(num_classes=len(classes), widths=widths)
     model.load_state_dict(checkpoint["model"])
     model.eval()
 
@@ -50,7 +53,10 @@ def main() -> None:
     with torch.no_grad():
         for start in range(0, len(valid.images), args.batch):
             chunk = slice(start, start + args.batch)
-            logits = model(torch.from_numpy(to_float(valid.images[chunk])))
+            batch = torch.from_numpy(to_float(valid.images[chunk]))
+            logits = model(batch)
+            if args.tta:
+                logits = (logits + model(torch.flip(batch, dims=[3]))) / 2
             predictions.extend(logits.argmax(1).tolist())
     predicted = np.asarray(predictions)
     truth = valid.labels

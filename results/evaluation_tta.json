@@ -1,0 +1,569 @@
+{
+  "checkpoint": "runs/classifier_v2/best.pt",
+  "epoch": 25,
+  "validation_accuracy": 0.7884615384615384,
+  "macro": {
+    "precision": 0.7914592632006625,
+    "recall": 0.7921051130344774,
+    "f1": 0.7886789968047832
+  },
+  "per_class": {
+    "bharatanatyam": {
+      "precision": 0.7090909090909091,
+      "recall": 0.8297872340425532,
+      "f1": 0.764705882352941,
+      "support": 47
+    },
+    "kathak": {
+      "precision": 0.8604651162790697,
+      "recall": 0.8409090909090909,
+      "f1": 0.8505747126436781,
+      "support": 44
+    },
+    "kathakali": {
+      "precision": 1.0,
+      "recall": 0.9361702127659575,
+      "f1": 0.967032967032967,
+      "support": 47
+    },
+    "kuchipudi": {
+      "precision": 0.6818181818181818,
+      "recall": 0.6521739130434783,
+      "f1": 0.6666666666666666,
+      "support": 46
+    },
+    "manipuri": {
+      "precision": 0.7674418604651163,
+      "recall": 0.9166666666666666,
+      "f1": 0.8354430379746837,
+      "support": 36
+    },
+    "mohiniyattam": {
+      "precision": 0.8775510204081632,
+      "recall": 0.86,
+      "f1": 0.8686868686868686,
+      "support": 50
+    },
+    "odissi": {
+      "precision": 0.7894736842105263,
+      "recall": 0.6122448979591837,
+      "f1": 0.6896551724137931,
+      "support": 49
+    },
+    "sattriya": {
+      "precision": 0.6458333333333334,
+      "recall": 0.6888888888888889,
+      "f1": 0.6666666666666667,
+      "support": 45
+    }
+  },
+  "confusion_matrix": [
+    [
+      39,
+      2,
+      0,
+      2,
+      1,
+      0,
+      2,
+      1
+    ],
+    [
+      2,
+      37,
+      0,
+      1,
+      0,
+      1,
+      2,
+      1
+    ],
+    [
+      1,
+      0,
+      44,
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      6,
+      1,
+      0,
+      30,
+      2,
+      1,
+      2,
+      4
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      33,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      3,
+      43,
+      0,
+      3
+    ],
+    [
+      5,
+      3,
+      0,
+      5,
+      0,
+      0,
+      30,
+      6
+    ],
+    [
+      2,
+      0,
+      0,
+      4,
+      3,
+      4,
+      1,
+      31
+    ]
+  ],
+  "classes": [
+    "bharatanatyam",
+    "kathak",
+    "kathakali",
+    "kuchipudi",
+    "manipuri",
+    "mohiniyattam",
+    "odissi",
+    "sattriya"
+  ],
+  "n_validation": 364,
+  "test_split": {
+    "n_images": 100,
+    "note": "the test split ships without labels, so these are predictions only and cannot be scored",
+    "predicted_counts": {
+      "bharatanatyam": 18,
+      "kathak": 12,
+      "kathakali": 14,
+      "kuchipudi": 16,
+      "manipuri": 6,
+      "mohiniyattam": 11,
+      "odissi": 7,
+      "sattriya": 16
+    },
+    "predictions": [
+      {
+        "path": "test/108.jpg",
+        "predicted": "manipuri"
+      },
+      {
+        "path": "test/11.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/112.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/114.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/119.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/125.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/128.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/129.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/132.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/138.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/14.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/145.jpg",
+        "predicted": "manipuri"
+      },
+      {
+        "path": "test/147.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/150.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/152.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/157.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/162.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/17.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/170.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/171.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/173.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/175.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/189.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/193.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/198.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/20.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/202.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/206.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/210.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/215.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/216.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/217.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/220.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/232.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/238.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/239.jpg",
+        "predicted": "kathakali"
+      },
+      {
+        "path": "test/246.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/256.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/269.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/270.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/271.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/275.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/28.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/280.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/283.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/284.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/286.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/290.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/292.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/301.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/306.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/316.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/317.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/324.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/33.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/330.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/340.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/349.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/358.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/360.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/366.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/373.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/375.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/378.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/38.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/385.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/392.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/398.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/40.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/410.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/411.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/414.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/421.jpg",
+        "predicted": "manipuri"
+      },
+      {
+        "path": "test/429.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/431.jpg",
+        "predicted": "manipuri"
+      },
+      {
+        "path": "test/437.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/438.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/439.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/447.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/45.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/456.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/457.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/458.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/461.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/465.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/479.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/484.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/485.jpg",
+        "predicted": "kathak"
+      },
+      {
+        "path": "test/495.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/507.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/510.jpg",
+        "predicted": "kuchipudi"
+      },
+      {
+        "path": "test/520.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/55.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/59.jpg",
+        "predicted": "mohiniyattam"
+      },
+      {
+        "path": "test/6.jpg",
+        "predicted": "bharatanatyam"
+      },
+      {
+        "path": "test/61.jpg",
+        "predicted": "sattriya"
+      },
+      {
+        "path": "test/67.jpg",
+        "predicted": "odissi"
+      },
+      {
+        "path": "test/71.jpg",
+        "predicted": "manipuri"
+      },
+      {
+        "path": "test/80.jpg",
+        "predicted": "manipuri"
+      },
+      {
+        "path": "test/9.jpg",
+        "predicted": "kathak"
+      }
+    ]
+  }
+}

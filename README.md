@@ -27,40 +27,61 @@ it from the Hugging Face Hub and is safe to re-run after an interruption.
 
 ## Results
 
-All figures below are validation scores on the 364 held-out images, from the
-best checkpoint (epoch 21 of 24).
+Validation scores on the 364 held-out images, best checkpoint (epoch 25 of 26).
 
-| Metric | Value |
-|---|---|
-| Validation accuracy | **73.90 %** |
-| Chance level (8 classes) | 12.50 % |
-| Macro precision | 76.25 % |
-| Macro recall | 74.01 % |
-| Macro F1 | 73.68 % |
-| Classifier parameters | 162,800 |
-| Input resolution | 64 × 64 RGB |
-| Training time | ~17 min on 2 CPU cores |
+| Metric | v1 baseline | **v2 (current)** |
+|---|---|---|
+| Validation accuracy | 73.90 % | **79.95 %** |
+| Macro precision | 76.25 % | **80.14 %** |
+| Macro recall | 74.01 % | **80.17 %** |
+| Macro F1 | 73.68 % | **79.92 %** |
+| Parameters | 162,800 | 221,180 |
+| Epochs | 24 | 26 |
+| Augmentation | none | flip + crop + colour jitter |
+| Label smoothing | 0.0 | 0.1 |
+| LR schedule | constant | cosine decay |
+| Chance level (8 classes) | 12.50 % | 12.50 % |
 
-Per class, on the same held-out split:
+Per class, v2:
 
 | Class | Precision | Recall | F1 | n |
 |---|---|---|---|---|
-| bharatanatyam | 84.0 % | 44.7 % | 58.3 % | 47 |
-| kathak | 63.5 % | 90.9 % | 74.8 % | 44 |
-| kathakali | 82.1 % | 97.9 % | 89.3 % | 47 |
-| kuchipudi | 62.2 % | 60.9 % | 61.5 % | 46 |
-| manipuri | 96.4 % | 75.0 % | 84.4 % | 36 |
-| mohiniyattam | 88.9 % | 80.0 % | 84.2 % | 50 |
-| odissi | 73.9 % | 69.4 % | 71.6 % | 49 |
-| sattriya | 58.9 % | 73.3 % | 65.3 % | 45 |
+| bharatanatyam | 75.5 % | 85.1 % | 80.0 % | 47 |
+| kathak | 86.0 % | 84.1 % | 85.1 % | 44 |
+| kathakali | **100.0 %** | 93.6 % | 96.7 % | 47 |
+| kuchipudi | 68.2 % | 65.2 % | 66.7 % | 46 |
+| manipuri | 78.0 % | 88.9 % | 83.1 % | 36 |
+| mohiniyattam | 84.6 % | 88.0 % | 86.3 % | 50 |
+| odissi | 82.1 % | 65.3 % | 72.7 % | 49 |
+| sattriya | 66.7 % | 71.1 % | 68.8 % | 45 |
 
 ![Confusion matrix](results/figures/confusion_matrix.png)
 
-The confusion matrix is the interesting part. Kathakali is close to solved
-(97.9 % recall) because of its distinctive green-and-red makeup and large
-headdress. Bharatanatyam has the highest precision but the lowest recall — it is
-rarely predicted wrongly, but it is often missed, and it leaks into kuchipudi
-and odissi, which share costume silhouettes and dark stage lighting.
+## What actually produced the gain
+
+Four changes, in order of how much they mattered:
+
+1. **Augmentation** (horizontal flip, random crop with 4 px reflect padding,
+   brightness/contrast/saturation jitter). This is the single largest factor.
+   With 1,188 training images the v1 model reached 100 % training accuracy and
+   was clearly memorising; augmentation makes every epoch see a different
+   version of each photograph.
+2. **Cosine learning-rate decay** from 1.5e-3 to ~0 over 26 epochs. Validation
+   accuracy climbs steeply in the last third of the schedule, which is the
+   signature of a model that was previously stopped too early.
+3. **Label smoothing 0.1.** Small but consistent: it removes the overconfident
+   mistakes that used to flip a whole batch.
+4. **Wider network** (28/56/112 channels instead of 24/48/96). Worth roughly
+   one percentage point on its own.
+
+### A negative result worth recording
+
+**Flip test-time augmentation made accuracy worse**: 79.95 % without TTA versus
+78.85 % with it, on the same checkpoint. The model is trained with flips but is
+not actually flip-invariant, so averaging the two views pulls some correct
+predictions toward the wrong class. `results/evaluation_tta.json` keeps the
+full TTA run so the claim is checkable. TTA is implemented behind
+`evaluate.py --tta` and is off by default.
 
 ## Autoencoder
 
@@ -89,14 +110,16 @@ expected ceiling for this bottleneck size, not a training failure.
 ```
 src/download_data.py      fetch the dataset from the Hugging Face Hub
 src/data.py               decode + resize images into uint8 arrays
+src/augment.py            flip / crop / colour-jitter augmentation
 src/models.py             ConvAutoencoder and DanceClassifier
 src/optim.py              Adam (see note below)
 src/train_classifier.py   train the 8-class classifier
 src/train_autoencoder.py  train the autoencoder
-src/evaluate.py           per-class metrics, confusion matrix, test predictions
+src/evaluate.py           per-class metrics, confusion matrix, optional flip TTA
 src/make_report.py        build the figures in results/figures
-configs/default.json      the exact settings used for the published run
-results/evaluation.json   full evaluation output
+configs/default.json      the exact settings used for both runs
+results/evaluation.json   v2 evaluation output
+results/evaluation_tta.json  the same checkpoint with flip TTA (negative result)
 ```
 
 ## Reproduce
@@ -106,14 +129,24 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 python src/download_data.py --out data/dance_raw
+
+# v2, the published run
 python src/train_classifier.py --data data/dance_raw/data --size 64 --batch 32 \
-    --lr 1e-3 --epochs 24 --out runs/classifier
+    --lr 1.5e-3 --widths 28,56,112 --augment --label-smoothing 0.1 --cosine \
+    --epochs 26 --out runs/classifier_v2
+
 python src/train_autoencoder.py --data data/dance_raw/data --size 64 --latent 128 \
     --batch 32 --epochs 24 --out runs/autoencoder
+
 python src/evaluate.py --data data/dance_raw/data \
-    --checkpoint runs/classifier/best.pt --out results
-python src/make_report.py --data data/dance_raw/data
+    --checkpoint runs/classifier_v2/best.pt --out results
+python src/make_report.py --data data/dance_raw/data \
+    --classifier runs/classifier_v2/best.pt \
+    --classifier-metrics runs/classifier_v2/metrics.json
 ```
+
+The v1 baseline is reproduced by dropping `--augment --label-smoothing 0.1
+--cosine` and using `--widths 24,48,96 --lr 1e-3 --epochs 24`.
 
 Training is resumable. Both training scripts checkpoint the model, the optimiser
 state and the epoch counter, and accept `--time-budget` to stop cleanly. Resuming
@@ -130,13 +163,15 @@ training before the first step. The maths is standard Adam; it also carries
 
 ## Honest limits
 
-- **1,188 training images is small.** The model memorises costume and stage
-  cues well; it does not learn choreography or mudra vocabulary. It would not
-  generalise to dancers photographed in everyday clothing.
-- **The validation split is also small** (364 images), so a single image is
-  0.27 percentage points. Validation accuracy swung between 57 % and 74 % across
-  the last few epochs. Treat 73.9 % as the best observed point, not a stable
-  converged estimate.
+- **1,188 training images is still small.** Augmentation pushed accuracy up six
+  points, but the model is learning costume, makeup and stage-lighting cues, not
+  choreography or mudra vocabulary. It would not transfer to dancers in everyday
+  clothing.
+- **The validation split is small** (364 images), so one image is 0.27 points.
+  The gap between 79.95 % and 78.85 % is four images — real, but not enormous.
+- **Kuchipudi and sattriya remain weak** (66.7 % and 68.8 % F1). Both overlap
+  visually with neighbouring styles, and neither has enough images to separate
+  cleanly at 64×64.
 - **The test split has no labels.** `evaluate.py` predicts on it and records the
   distribution, but nothing here can score it.
 - **No pretrained weights.** Everything is trained from scratch on 64×64 inputs.

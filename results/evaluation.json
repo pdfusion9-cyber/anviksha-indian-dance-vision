@@ -1,142 +1,142 @@
 {
-  "checkpoint": "runs/classifier/best.pt",
-  "epoch": 21,
-  "validation_accuracy": 0.739010989010989,
+  "checkpoint": "runs/classifier_v2/best.pt",
+  "epoch": 25,
+  "validation_accuracy": 0.7994505494505495,
   "macro": {
-    "precision": 0.7625202726017943,
-    "recall": 0.7400661700640225,
-    "f1": 0.7368369333739653
+    "precision": 0.8013526771800886,
+    "recall": 0.8016722838744446,
+    "f1": 0.7992041307293548
   },
   "per_class": {
     "bharatanatyam": {
-      "precision": 0.84,
-      "recall": 0.44680851063829785,
-      "f1": 0.5833333333333334,
+      "precision": 0.7547169811320755,
+      "recall": 0.851063829787234,
+      "f1": 0.8,
       "support": 47
     },
     "kathak": {
-      "precision": 0.6349206349206349,
-      "recall": 0.9090909090909091,
-      "f1": 0.7476635514018691,
+      "precision": 0.8604651162790697,
+      "recall": 0.8409090909090909,
+      "f1": 0.8505747126436781,
       "support": 44
     },
     "kathakali": {
-      "precision": 0.8214285714285714,
-      "recall": 0.9787234042553191,
-      "f1": 0.8932038834951456,
+      "precision": 1.0,
+      "recall": 0.9361702127659575,
+      "f1": 0.967032967032967,
       "support": 47
     },
     "kuchipudi": {
-      "precision": 0.6222222222222222,
-      "recall": 0.6086956521739131,
-      "f1": 0.6153846153846154,
+      "precision": 0.6818181818181818,
+      "recall": 0.6521739130434783,
+      "f1": 0.6666666666666666,
       "support": 46
     },
     "manipuri": {
-      "precision": 0.9642857142857143,
-      "recall": 0.75,
-      "f1": 0.8437499999999999,
+      "precision": 0.7804878048780488,
+      "recall": 0.8888888888888888,
+      "f1": 0.8311688311688312,
       "support": 36
     },
     "mohiniyattam": {
-      "precision": 0.8888888888888888,
-      "recall": 0.8,
-      "f1": 0.8421052631578948,
+      "precision": 0.8461538461538461,
+      "recall": 0.88,
+      "f1": 0.8627450980392156,
       "support": 50
     },
     "odissi": {
-      "precision": 0.7391304347826086,
-      "recall": 0.6938775510204082,
-      "f1": 0.7157894736842104,
+      "precision": 0.8205128205128205,
+      "recall": 0.6530612244897959,
+      "f1": 0.7272727272727272,
       "support": 49
     },
     "sattriya": {
-      "precision": 0.5892857142857143,
-      "recall": 0.7333333333333333,
-      "f1": 0.6534653465346534,
+      "precision": 0.6666666666666666,
+      "recall": 0.7111111111111111,
+      "f1": 0.6881720430107527,
       "support": 45
     }
   },
   "confusion_matrix": [
     [
-      21,
-      7,
-      2,
-      9,
-      0,
-      0,
-      6,
-      2
-    ],
-    [
-      1,
       40,
       1,
       0,
-      0,
-      0,
+      2,
       1,
+      0,
+      2,
       1
     ],
     [
-      0,
-      0,
-      46,
-      0,
-      0,
+      2,
+      37,
       0,
       1,
+      0,
+      1,
+      2,
+      1
+    ],
+    [
+      1,
+      0,
+      44,
+      0,
+      2,
+      0,
+      0,
       0
     ],
     [
-      1,
       6,
+      1,
+      0,
+      30,
       2,
-      28,
-      1,
       2,
-      1,
-      5
-    ],
-    [
-      0,
-      3,
-      1,
-      0,
-      27,
-      0,
-      1,
-      4
-    ],
-    [
-      0,
-      0,
-      1,
-      1,
-      0,
-      40,
-      0,
-      8
-    ],
-    [
       2,
-      5,
-      0,
-      5,
-      0,
-      0,
-      34,
       3
     ],
     [
       0,
-      2,
-      3,
-      2,
       0,
+      0,
+      1,
+      32,
+      0,
+      0,
+      3
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
       3,
-      2,
-      33
+      44,
+      0,
+      2
+    ],
+    [
+      3,
+      3,
+      0,
+      5,
+      0,
+      0,
+      32,
+      6
+    ],
+    [
+      1,
+      1,
+      0,
+      4,
+      1,
+      5,
+      1,
+      32
     ]
   ],
   "classes": [
@@ -154,14 +154,14 @@
     "n_images": 100,
     "note": "the test split ships without labels, so these are predictions only and cannot be scored",
     "predicted_counts": {
-      "bharatanatyam": 9,
-      "kathak": 21,
-      "kathakali": 18,
-      "kuchipudi": 12,
-      "manipuri": 4,
-      "mohiniyattam": 9,
-      "odissi": 8,
-      "sattriya": 19
+      "bharatanatyam": 18,
+      "kathak": 12,
+      "kathakali": 14,
+      "kuchipudi": 16,
+      "manipuri": 6,
+      "mohiniyattam": 11,
+      "odissi": 7,
+      "sattriya": 16
     },
     "predictions": [
       {
@@ -178,7 +178,7 @@
       },
       {
         "path": "test/114.jpg",
-        "predicted": "bharatanatyam"
+        "predicted": "odissi"
       },
       {
         "path": "test/119.jpg",
@@ -186,11 +186,11 @@
       },
       {
         "path": "test/125.jpg",
-        "predicted": "odissi"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/128.jpg",
-        "predicted": "odissi"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/129.jpg",
@@ -198,19 +198,19 @@
       },
       {
         "path": "test/132.jpg",
-        "predicted": "kuchipudi"
+        "predicted": "sattriya"
       },
       {
         "path": "test/138.jpg",
-        "predicted": "kathak"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/14.jpg",
-        "predicted": "kathak"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/145.jpg",
-        "predicted": "kathakali"
+        "predicted": "manipuri"
       },
       {
         "path": "test/147.jpg",
@@ -222,7 +222,7 @@
       },
       {
         "path": "test/152.jpg",
-        "predicted": "kathak"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/157.jpg",
@@ -230,7 +230,7 @@
       },
       {
         "path": "test/162.jpg",
-        "predicted": "kathak"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/17.jpg",
@@ -242,15 +242,15 @@
       },
       {
         "path": "test/171.jpg",
-        "predicted": "odissi"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/173.jpg",
-        "predicted": "sattriya"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/175.jpg",
-        "predicted": "kuchipudi"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/189.jpg",
@@ -258,7 +258,7 @@
       },
       {
         "path": "test/193.jpg",
-        "predicted": "kathakali"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/198.jpg",
@@ -286,7 +286,7 @@
       },
       {
         "path": "test/216.jpg",
-        "predicted": "sattriya"
+        "predicted": "kathakali"
       },
       {
         "path": "test/217.jpg",
@@ -342,7 +342,7 @@
       },
       {
         "path": "test/283.jpg",
-        "predicted": "sattriya"
+        "predicted": "mohiniyattam"
       },
       {
         "path": "test/284.jpg",
@@ -370,7 +370,7 @@
       },
       {
         "path": "test/316.jpg",
-        "predicted": "kathak"
+        "predicted": "sattriya"
       },
       {
         "path": "test/317.jpg",
@@ -386,7 +386,7 @@
       },
       {
         "path": "test/330.jpg",
-        "predicted": "kathak"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/340.jpg",
@@ -418,7 +418,7 @@
       },
       {
         "path": "test/378.jpg",
-        "predicted": "kuchipudi"
+        "predicted": "sattriya"
       },
       {
         "path": "test/38.jpg",
@@ -426,7 +426,7 @@
       },
       {
         "path": "test/385.jpg",
-        "predicted": "kathak"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/392.jpg",
@@ -438,7 +438,7 @@
       },
       {
         "path": "test/40.jpg",
-        "predicted": "kathak"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/410.jpg",
@@ -458,11 +458,11 @@
       },
       {
         "path": "test/429.jpg",
-        "predicted": "kathakali"
+        "predicted": "odissi"
       },
       {
         "path": "test/431.jpg",
-        "predicted": "kathakali"
+        "predicted": "manipuri"
       },
       {
         "path": "test/437.jpg",
@@ -486,7 +486,7 @@
       },
       {
         "path": "test/456.jpg",
-        "predicted": "sattriya"
+        "predicted": "mohiniyattam"
       },
       {
         "path": "test/457.jpg",
@@ -494,7 +494,7 @@
       },
       {
         "path": "test/458.jpg",
-        "predicted": "kathakali"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/461.jpg",
@@ -510,7 +510,7 @@
       },
       {
         "path": "test/484.jpg",
-        "predicted": "odissi"
+        "predicted": "sattriya"
       },
       {
         "path": "test/485.jpg",
@@ -518,7 +518,7 @@
       },
       {
         "path": "test/495.jpg",
-        "predicted": "sattriya"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/507.jpg",
@@ -526,11 +526,11 @@
       },
       {
         "path": "test/510.jpg",
-        "predicted": "sattriya"
+        "predicted": "kuchipudi"
       },
       {
         "path": "test/520.jpg",
-        "predicted": "kuchipudi"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/55.jpg",
@@ -542,7 +542,7 @@
       },
       {
         "path": "test/6.jpg",
-        "predicted": "sattriya"
+        "predicted": "bharatanatyam"
       },
       {
         "path": "test/61.jpg",
@@ -550,7 +550,7 @@
       },
       {
         "path": "test/67.jpg",
-        "predicted": "kathak"
+        "predicted": "odissi"
       },
       {
         "path": "test/71.jpg",
